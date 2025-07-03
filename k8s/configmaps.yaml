@@ -1,0 +1,19 @@
+# week04/k8s/configmaps.yaml
+
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: config-map
+data:
+  # Database Names
+  PRODUCTS_DB_NAME: products
+  ORDERS_DB_NAME: orders
+  CUSTOMERS_DB_NAME: customers
+
+  AZURE_STORAGE_CONTAINER_NAME: product-images
+  AZURE_SAS_TOKEN_EXPIRY_HOURS: "24"
+
+  PRODUCT_SERVICE_URL: http://product-service:8000 # Product Service internal ClusterIP
+  ORDER_SERVICE_URL: http://order-service:8001     # Order Service internal ClusterIP
+  CUSTOMER_SERVICE_URL: http://customer-service:8002 # Customer Service internal ClusterIP
+  RABBITMQ_HOST: rabbitmq-service # RabbitMQ internal ClusterIP Service Name
