@@ -1,6 +1,6 @@
 # week04/frontend/Dockerfile
 
-FROM docker.io/nginx:alpine
+FROM nginx:alpine
 
 COPY nginx.conf /etc/nginx/conf.d/default.conf
 

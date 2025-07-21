@@ -10,7 +10,7 @@ data:
   ORDERS_DB_NAME: orders
   CUSTOMERS_DB_NAME: customers
 
-  AZURE_STORAGE_CONTAINER_NAME: product-images
+  AZURE_STORAGE_CONTAINER_NAME: <your_storage_container_name>
   AZURE_SAS_TOKEN_EXPIRY_HOURS: "24"
 
   PRODUCT_SERVICE_URL: http://product-service:8000 # Product Service internal ClusterIP

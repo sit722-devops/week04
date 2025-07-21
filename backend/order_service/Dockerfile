@@ -1,6 +1,6 @@
 # week04/backend/order_service/Dockerfile
 
-FROM docker.io/python:3.10-slim-buster
+FROM python:3.10-slim-buster
 
 WORKDIR /code
 

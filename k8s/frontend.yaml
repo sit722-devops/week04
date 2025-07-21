@@ -18,7 +18,7 @@ spec:
     spec:
       containers:
       - name: frontend-container
-        image: week04_frontend:latest
+        image: <your_image_name>
         imagePullPolicy: Never # Crucial for local testing with Docker Desktop K8s
         ports:
         - containerPort: 80 # Nginx runs on port 80 inside the container

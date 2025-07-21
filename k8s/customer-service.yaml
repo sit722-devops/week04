@@ -18,7 +18,7 @@ spec:
     spec:
       containers:
       - name: customer-service-container
-        image: week04_customer_service:latest
+        image: <your_image_name>
         imagePullPolicy: Never
         ports:
         - containerPort: 8002
