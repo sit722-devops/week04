@@ -1,10 +1,27 @@
-# week04/frontend/Dockerfile
+# Build stage
+FROM node:22-alpine AS build
 
+WORKDIR /app
+
+COPY package*.json ./
+
+RUN npm install
+
+COPY . .
+
+ARG VITE_STUDENT_SERVICE_URL
+ARG VITE_COURSE_SERVICE_URL
+
+ENV VITE_STUDENT_SERVICE_URL=$VITE_STUDENT_SERVICE_URL
+ENV VITE_COURSE_SERVICE_URL=$VITE_COURSE_SERVICE_URL
+
+RUN npm run build
+
+
+# Runtime stage
 FROM nginx:alpine
 
-COPY nginx.conf /etc/nginx/conf.d/default.conf
-
-COPY . /usr/share/nginx/html
+COPY --from=build /app/dist /usr/share/nginx/html
 
 EXPOSE 80
 
