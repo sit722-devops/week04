@@ -35,7 +35,7 @@ az account show --output table
 
 ---
 
-# Part 1 — Test Student Service
+### Part 1 — Test Student Service
 
 Start the student database:
 
@@ -61,6 +61,12 @@ Activate the environment (macOS/Linux):
 source .venv/bin/activate
 ```
 
+Or, to activate the environment (Windows Powershell):
+
+```bash
+.\.venv\Scripts\Activate.ps1
+```
+
 Install dependencies:
 
 ```bash
@@ -70,7 +76,13 @@ pip install -r requirements.txt
 Run unit tests:
 
 ```bash
-pytest tests
+pytest --verbose tests
+```
+
+Then deactivate the environment:
+
+```bash
+deactivate
 ```
 
 Return to the project root:
@@ -81,7 +93,7 @@ cd ..
 
 ---
 
-# Part 2 — Test Course Service
+### Part 2 — Test Course Service
 
 Start the course database:
 
@@ -127,7 +139,7 @@ cd ..
 
 ---
 
-# Part 3 — Test Frontend
+### Part 3 — Test Frontend
 
 Navigate to the frontend:
 
@@ -161,7 +173,7 @@ cd ..
 
 ---
 
-# Part 4 — Run the Entire Application Locally
+### Part 4 — Run the Entire Application Locally
 
 Build and start all services:
 
@@ -201,7 +213,7 @@ docker compose down
 
 ---
 
-# Part 5 — Create Azure Resource Group
+### Part 5 — Create Azure Resource Group
 
 ```bash
 az group create \
@@ -211,7 +223,7 @@ az group create \
 
 ---
 
-# Part 6 — Create Azure Container Registry
+### Part 6 — Create Azure Container Registry
 
 ```bash
 az acr create \
@@ -228,7 +240,7 @@ az acr login --name <YOUR_ACR_NAME>
 
 ---
 
-# Part 7 — Create Azure PostgreSQL Flexible Server
+### Part 7 — Create Azure PostgreSQL Flexible Server
 
 ```bash
 az postgres flexible-server create \
@@ -242,7 +254,7 @@ az postgres flexible-server create \
 
 ---
 
-# Part 8 — Create Databases
+### Part 8 — Create Databases
 
 Connect:
 
@@ -265,7 +277,7 @@ Exit:
 
 ---
 
-# Part 9 — Build Backend Images
+### Part 9 — Build Backend Images
 
 Student Service:
 
@@ -295,7 +307,7 @@ az acr repository list \
 
 ---
 
-# Part 10 — Create Azure App Service Plan
+### Part 10 — Create Azure App Service Plan
 
 ```bash
 az appservice plan create \
@@ -308,7 +320,7 @@ az appservice plan create \
 
 ---
 
-# Part 11 — Create Service Principal
+### Part 11 — Create Service Principal
 
 Get the ACR Resource ID:
 
@@ -341,7 +353,7 @@ SP_APP_ID=$(az ad sp list \
 
 ---
 
-# Part 12 — Deploy Student Service
+### Part 12 — Deploy Student Service
 
 Create App Service:
 
@@ -391,7 +403,7 @@ az webapp restart \
 
 ---
 
-# Part 13 — Deploy Course Service
+### Part 13 — Deploy Course Service
 
 Create App Service:
 
@@ -441,7 +453,7 @@ az webapp restart \
 
 ---
 
-# Part 14 — Build Frontend Image
+### Part 14 — Build Frontend Image
 
 ```bash
 az acr build \
@@ -454,7 +466,7 @@ az acr build \
 
 ---
 
-# Part 15 — Deploy Frontend
+### Part 15 — Deploy Frontend
 
 Create App Service:
 
@@ -497,7 +509,7 @@ az webapp restart \
 
 ---
 
-# Part 16 — Update Backend CORS
+### Part 16 — Update Backend CORS
 
 Student Service:
 
@@ -533,7 +545,7 @@ az webapp restart \
 
 ---
 
-# Part 17 — Verify Deployment
+### Part 17 — Verify Deployment
 
 Open the frontend:
 
@@ -566,7 +578,7 @@ Verify:
 
 ---
 
-# Part 18 — Clean Up Resources
+### Part 18 — Clean Up Resources
 
 Delete the resource group:
 

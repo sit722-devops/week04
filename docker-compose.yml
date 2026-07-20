@@ -55,10 +55,14 @@ services:
     build: ./frontend
     container_name: frontend
     ports:
-      - "5173:5173"
+      - "5173:80"
     environment:
-      STUDENT_SERVICE_URL: http://student-service:8000
-      COURSE_SERVICE_URL: http://course-service:8000
+      VITE_STUDENT_SERVICE_URL: http://localhost:8001/
+      VITE_COURSE_SERVICE_URL: http://localhost:8002/
+      # VITE_STUDENT_SERVICE_URL: http://localhost:8001/students
+      # VITE_COURSE_SERVICE_URL: http://localhost:8002/courses
+      # STUDENT_SERVICE_URL: http://student-service:8001
+      # COURSE_SERVICE_URL: http://course-service:8002
     depends_on:
       - student-service
       - course-service
