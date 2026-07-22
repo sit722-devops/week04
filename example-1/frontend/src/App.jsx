@@ -29,9 +29,22 @@ async function readResponse(response) {
     const data = await response.json();
 
     if (!response.ok) {
-        throw new Error(
-            data.detail || "The request could not be completed."
-        );
+        let errorMessage = "The request could not be completed.";
+
+        if (response.status === 422 && data.detail) {
+            // Handle FastAPI RequestValidationError
+            const errors = Array.isArray(data.detail)
+                ? data.detail.map((error) => {
+                    const field = error.loc?.[1] || "field";
+                    return `${field}: ${error.msg}`;
+                }).join(", ")
+                : data.detail;
+            errorMessage = errors;
+        } else if (data.detail) {
+            errorMessage = data.detail;
+        }
+
+        throw new Error(errorMessage);
     }
 
     return data;
