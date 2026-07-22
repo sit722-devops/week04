@@ -33,6 +33,7 @@ services:
       POSTGRES_PASSWORD: postgres
       POSTGRES_DB: students
       POSTGRES_HOST: student-db
+      POSTGRES_SSLMODE: disable
       POSTGRES_PORT: 5432
     depends_on:
       - student-db
@@ -48,21 +49,19 @@ services:
       POSTGRES_DB: courses
       POSTGRES_HOST: course-db
       POSTGRES_PORT: 5432
+      POSTGRES_SSLMODE: disable
     depends_on:
       - course-db
 
   frontend:
-    build: ./frontend
+    build: 
+      context: ./frontend
+      args:
+        VITE_STUDENT_SERVICE_URL: http://localhost:8001/students
+        VITE_COURSE_SERVICE_URL: http://localhost:8002/courses
     container_name: frontend
     ports:
       - "5173:80"
-    environment:
-      VITE_STUDENT_SERVICE_URL: http://localhost:8001/
-      VITE_COURSE_SERVICE_URL: http://localhost:8002/
-      # VITE_STUDENT_SERVICE_URL: http://localhost:8001/students
-      # VITE_COURSE_SERVICE_URL: http://localhost:8002/courses
-      # STUDENT_SERVICE_URL: http://student-service:8001
-      # COURSE_SERVICE_URL: http://course-service:8002
     depends_on:
       - student-service
       - course-service
