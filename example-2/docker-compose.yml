@@ -1,0 +1,72 @@
+services:
+  student-db:
+    image: postgres:16
+    container_name: student-db
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: students
+    ports:
+      - "5433:5432"
+    volumes:
+      - student_data:/var/lib/postgresql/data
+
+  course-db:
+    image: postgres:16
+    container_name: course-db
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: courses
+    ports:
+      - "5434:5432"
+    volumes:
+      - course_data:/var/lib/postgresql/data
+
+  student-service:
+    build: ./student-service
+    image: student-service:v1
+    container_name: student-service
+    ports:
+      - "8001:8000"
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: students
+      POSTGRES_HOST: student-db
+      POSTGRES_PORT: 5432
+    depends_on:
+      - student-db
+
+  course-service:
+    build: ./course-service
+    image: course-service:v1
+    container_name: course-service
+    ports:
+      - "8002:8000"
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: courses
+      POSTGRES_HOST: course-db
+      POSTGRES_PORT: 5432
+    depends_on:
+      - course-db
+
+  frontend:
+    build:
+      context: ./frontend
+      args:
+        - VITE_STUDENT_SERVICE_URL=http://localhost:8001/students
+        - VITE_COURSE_SERVICE_URL=http://localhost:8002/courses
+    image: frontend:v1
+    container_name: frontend
+    ports:
+      - "5173:80"
+    depends_on:
+      - student-service
+      - course-service
+
+volumes:
+  student_data:
+  course_data:
