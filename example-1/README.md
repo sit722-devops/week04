@@ -11,20 +11,10 @@ Install the following software before starting:
 * Azure CLI
 * PostgreSQL client (`psql`)
 
-Login to Azure:
+Login to Azure (selecting your correct Azure subscription):
 
 ```bash
 az login
-```
-
-Select your Azure subscription:
-
-```bash
-az account list --output table
-```
-
-```bash
-az account set --subscription "<SUBSCRIPTION_NAME_OR_ID>"
 ```
 
 Verify:
@@ -70,7 +60,8 @@ pip install -r requirements.txt
 Run unit tests:
 
 ```bash
-pytest tests
+$env:POSTGRES_PORT=5433
+pytest --verbose tests
 ```
 
 Return to the project root:
@@ -116,6 +107,7 @@ pip install -r requirements.txt
 Run unit tests:
 
 ```bash
+$env:POSTGRES_PORT=5434
 pytest tests
 ```
 
@@ -170,7 +162,7 @@ docker compose down
 ```
 
 ```bash
-docker compose up --build
+docker compose up --build -d
 ```
 
 Open:
@@ -369,7 +361,7 @@ Create the Service Principal:
 
 ```bash
 SP_PASSWORD=$(az ad sp create-for-rbac \
-    --name campus-acr-sp \
+    --name <APP_SERIVCE_NAME> \
     --role AcrPull \
     --scopes "$ACR_ID" \
     --query password \
@@ -380,7 +372,7 @@ Get the Application ID:
 
 ```bash
 SP_APP_ID=$(az ad sp list \
-    --display-name campus-acr-sp \
+    --display-name <APP_SERIVCE_NAME> \
     --query "[0].appId" \
     --output tsv)
 ```
@@ -507,7 +499,7 @@ Create App Service:
 ```bash
 az webapp create \
     --resource-group rg-campus-course-week04 \
-    --plan campus-plan \
+    --plan <APP_SERIVCE_NAME> \
     --name <FRONTEND_APP_NAME> \
     --container-image-name <YOUR_ACR_NAME>.azurecr.io/frontend:v1
 ```
