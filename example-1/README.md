@@ -188,28 +188,44 @@ docker compose down -v
    RESOURCE_GROUP="rg-campus-course-week04"
    LOCATION="australiaeast"
 
-   # Azure Container Registry # The name must be globally unique and contain only lowercase letters and numbers.
-   ACR_NAME="<your-unique-acr-name>" ACR_SKU="Basic"
+   # Azure Container Registry
+   # ** The name must be globally unique and contain only lowercase letters and numbers. **
+   ACR_NAME="<your-unique-acr-name>"
+   ACR_SKU="Basic"
 
-   # Azure PostgreSQL Flexible Server # The server name must be globally unique.
-   POSTGRES_SERVER_NAME="<your-unique-postgres-server-name>" POSTGRES_ADMIN_USER="<your-postgres-admin-username>" POSTGRES_ADMIN_PASSWORD='<your-strong-postgres-password>' POSTGRES_SKU="Standard_B1ms" POSTGRES_TIER="burstable" POSTGRES_STORAGE_SIZE="32" POSTGRES_VERSION="16"
+   # Azure PostgreSQL Flexible Server
+   # ** The server name must be globally unique. **
+   POSTGRES_SERVER_NAME="<your-unique-postgres-server-name>"
+   POSTGRES_ADMIN_USER="<your-postgres-admin-username>"
+   POSTGRES_ADMIN_PASSWORD="<your-strong-postgres-password>"
+   POSTGRES_SKU="Standard_B1ms"
+   POSTGRES_TIER="burstable"
+   POSTGRES_STORAGE_SIZE="32"
+   POSTGRES_VERSION="16"
 
    # PostgreSQL databases
-   STUDENT_DATABASE="students" COURSE_DATABASE="courses"
+   STUDENT_DATABASE="students"
+   COURSE_DATABASE="courses"
 
    # Azure App Service Plan
-   APP_SERVICE_PLAN="campus-plan" APP_SERVICE_SKU="B1"
+   APP_SERVICE_PLAN="campus-plan"
+   APP_SERVICE_SKU="B1"
 
    # Azure App Service names
-   # Each App Service name must be globally unique.
-   STUDENT_APP_NAME="<your-unique-student-app-name>" COURSE_APP_NAME="<your-unique-course-app-name>" FRONTEND_APP_NAME="<your-unique-frontend-app-name>"
+   # ** Each App Service name must be globally unique. **
+   STUDENT_APP_NAME="<your-unique-student-app-name>"
+   COURSE_APP_NAME="<your-unique-course-app-name>"
+   FRONTEND_APP_NAME="<your-unique-frontend-app-name>"
 
    # Container image names
-   STUDENT_IMAGE_NAME="student-service" COURSE_IMAGE_NAME="course-service" FRONTEND_IMAGE_NAME="frontend"
+   STUDENT_IMAGE_NAME="student-service"
+   COURSE_IMAGE_NAME="course-service"
+   FRONTEND_IMAGE_NAME="frontend"
    IMAGE_TAG="v1"
 
    # Service Principal
-   SP_NAME="campus-acr-sp"
+   # ** Consider making the campus-acr-sp unique. I.e., with your student number of initials. **
+   SP_NAME='<campus-acr-sp-initials>.
    ```
 
 2. Create the derived variables:
@@ -235,8 +251,8 @@ docker compose down -v
 
    ```bash
    az group create \
-       --name rg-campus-course-week04 \
-       --location australiaeast
+       --name "$RESOURCE_GROUP" \
+       --location "$LOCATION"
    ```
 
    Verify the resource group:
@@ -387,14 +403,14 @@ docker compose down -v
        ```bash
        az acr build --registry "$ACR_NAME" \
            --image "${STUDENT_IMAGE_NAME}:${IMAGE_TAG}" \
-           ./student-service
+           "$STUDENT_IMAGE_NAME"
        ```
 
     2. Build the Course Service image:
        ```bash
        az acr build --registry "$ACR_NAME" \
            --image "${COURSE_IMAGE_NAME}:${IMAGE_TAG}" \
-           ./course-service
+           "$COURSE_IMAGE_NAME"
        ```
     3. Verify the repositories:
        ```bash
