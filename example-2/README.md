@@ -56,13 +56,19 @@ Before using Docker or Kubernetes, run the unit tests for both backend services.
 
 ### Student Service
 
-1. Navigate to the Student Service.
+1. Start the student database:
 
-    ```bash
-    cd student-service
-    ```
+   ```bash
+   docker compose up -d student-db
+   ```
 
-2. Create a virtual environment.
+2. Navigate to the Student Service:
+
+   ```bash
+   cd student-service
+   ```
+
+3. Create a virtual environment.
 
     ```bash
     # Create the virtual environment
@@ -79,14 +85,16 @@ Before using Docker or Kubernetes, run the unit tests for both backend services.
     # .\.venv\Scripts\Activate.ps1
     ```
 
-3. Install dependencies:
+4. Install dependencies:
 
     ```bash
     pip install -r requirements.txt
     ```
-4. Run Unit Tests
+
+5. Run Unit Tests
 
     ```bash
+    $POSTGRES_PORT=5433
     pytest --verbose tests
     ```
 
@@ -98,9 +106,11 @@ Before using Docker or Kubernetes, run the unit tests for both backend services.
     ```
 
 > **NOTE**:
-> Repeat the same steps for the Course Service.
+> Repeat the same steps for the Course Service using  `$POSTGRES_PORT=5434`
+> Make sure to start course-db before testing Course Service.
 > Ensure all tests pass before continuing.
 
+---
 
 ## Frontend
 
@@ -217,6 +227,7 @@ docker build -t frontend:v1 .
 Verify the images:
 
 ```bash
+cd ..
 docker images
 ```
 
@@ -224,16 +235,23 @@ docker images
 
 # Step 6 – Deploy PostgreSQL
 
+Deploy the Configuration parameters for the project:
+
+```bash
+kubectl apply -f kubernetes/01-secrets.yaml
+```
+
+
 Deploy the Student PostgreSQL database:
 
 ```bash
-kubectl apply -f kubernetes/postgres-student.yaml
+kubectl apply -f kubernetes/02-student-db.yaml
 ```
 
 Deploy the Course PostgreSQL database:
 
 ```bash
-kubectl apply -f kubernetes/postgres-course.yaml
+kubectl apply -f kubernetes/03-course-db.yaml
 ```
 
 Verify:
@@ -255,13 +273,13 @@ Running
 Deploy the Student Service:
 
 ```bash
-kubectl apply -f kubernetes/student-service.yaml
+kubectl apply -f kubernetes/04-student-service.yaml
 ```
 
 Deploy the Course Service:
 
 ```bash
-kubectl apply -f kubernetes/course-service.yaml
+kubectl apply -f kubernetes/05-course-service.yaml
 ```
 
 Verify:
@@ -277,7 +295,7 @@ kubectl get pods
 Deploy the React frontend:
 
 ```bash
-kubectl apply -f kubernetes/frontend.yaml
+kubectl apply -f kubernetes/06-frontend.yaml
 ```
 
 Verify:

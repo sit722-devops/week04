@@ -25,7 +25,7 @@ spec:
     spec:
       containers:
         - name: student-service
-          image: student-service:latest
+          image: student-service:v1
           imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 8000

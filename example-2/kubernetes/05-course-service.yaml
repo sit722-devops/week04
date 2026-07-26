@@ -25,7 +25,7 @@ spec:
     spec:
       containers:
         - name: course-service
-          image: course-service:latest
+          image: course-service:v1
           imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 8000
