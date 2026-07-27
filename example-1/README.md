@@ -225,7 +225,7 @@ docker compose down -v
 
    # Service Principal
    # ** Consider making the campus-acr-sp unique. I.e., with your student number of initials. **
-   SP_NAME='<campus-acr-sp-initials>.
+   SP_NAME='<campus-acr-sp-initials>'
    ```
 
 2. Create the derived variables:
